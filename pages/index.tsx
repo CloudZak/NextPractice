@@ -14,8 +14,7 @@ function Home({ menu }: HomeProps): JSX.Element {
       <Button appearance="primary" arrow='right'>Primary</Button>
       <Button appearance="ghost" arrow='right'>Ghost</Button>
       <P size="m">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quis odio consequatur facere ea asperiores illum a laudantium nemo ducimus molestiae, perspiciatis inventore amet modi! Praesentium, qui rem? Optio, suscipit.</P>
-      <Tag size='s'>Small</Tag>
-      <Tag color='primary'>Primary</Tag>
+
       <Tag size='m' color="red">Medium</Tag>
       <Rating rating={rating} isEditable setRating={setRating} />
       <ul>
@@ -27,7 +26,7 @@ function Home({ menu }: HomeProps): JSX.Element {
 
 export default withLayout(Home);
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   const firstCategory = 0;
   const { data: menu } = await axios.post<MenuItem[]>(process.env.NEXT_PUBLIC_DOMAIN + '/api/top-page/find', {
     firstCategory
