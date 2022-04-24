@@ -9,6 +9,7 @@ import ServisesIcon from './icons/servises.svg';
 import BooksIcon from './icons/books.svg';
 import ProductsIcon from './icons/products.svg';
 import { TopLevelCategory } from '../../interfaces/page.interface';
+import Link from 'next/link';
 
 const firstLevelMenu: FirstLevelMenuItem[] = [
     { route: 'courses', name: 'Курсы', icon: <CoursesIcon />, id: TopLevelCategory.Courses },
@@ -25,14 +26,16 @@ export const Menu = (): JSX.Element => {
             <>
                 {firstLevelMenu.map(m => (
                     <div key={m.route}>
-                        <a href={`/${m.route}`}>
-                            <div className={cn(styles.firstLevel, {
-                                [styles.firstLevelActive]: m.id == firstCategory
-                            })}>
-                                {m.icon}
-                                <span>{m.name}</span>
-                            </div>
-                        </a>
+                        <Link href={`/${m.route}`}>
+                            <a>
+                                <div className={cn(styles.firstLevel, {
+                                    [styles.firstLevelActive]: m.id == firstCategory
+                                })}>
+                                    {m.icon}
+                                    <span>{m.name}</span>
+                                </div>
+                            </a>
+                        </Link>
                         {m.id == firstCategory && buildSecondLevel(m)}
                     </div>
                 ))}
@@ -42,7 +45,7 @@ export const Menu = (): JSX.Element => {
 
     const buildSecondLevel = (menuItem: FirstLevelMenuItem) => {
         return (
-            <div>
+            <div className={styles.secondBlock}>
                 {menu.map(m => (
                     <div key={m._id.secondCategory}>
                         <div className={styles.secondLevel}>{m._id.secondCategory}</div>
@@ -56,17 +59,18 @@ export const Menu = (): JSX.Element => {
             </div>
         );
     };
-
+    // type any
     const buildThirdLevel = (pages: PageItem[], route: string) => {
-        console.log(pages[0].category);
         return (
-            pages.map(p => {
-                <a href={`${route}/${p.alias}`} className={cn(styles.thirdLevel, {
-                    [styles.thirdLevelActive]: true
-                })}>
-                    {p.category}
-                </a>
-            })
+            pages.map(p => (
+                <Link href={`/${route}/${p.alias}`}>
+                    <a key={p.alias} className={cn(styles.thirdLevel, {
+                        [styles.thirdLevelActive]: false
+                    })}>
+                        {p.category}
+                    </a>
+                </Link>
+            ))
         );
     };
 
